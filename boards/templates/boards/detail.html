@@ -1,0 +1,13 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+<h1>detail</h1>
+<h2>{{ board.id }}th post</h2>
+<hr>
+<h3>{{ board.title }}</h3>
+<p>{{ board.content }}</p>
+<p>{{ board.created_at }}</p>
+<p>{{ board.updated_at }}</p>
+<a href="{% url 'boards:index' %}">BACK</a>
+<a href="{% url 'boards:edit' board.pk %}">edit</a>
+<a href="{% url 'boards:delete' board.pk %}" onclick"return confirm('are you sure?')">delete</a>
+{% endblock body %}

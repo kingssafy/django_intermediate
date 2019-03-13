@@ -1,0 +1,13 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+<h1>New</h1>
+<form action="{% url 'boards:create' %}" method="POST">
+  {% csrf_token %}
+  <label for="title">TITLE</label>
+  <input type="text" name="title" id="title"><br>
+  <input type="text" name="content" id="content"><br>
+  <input type="submit" value="submit"><br>
+</form>
+
+<a href="{% url 'boards:index' %}">BACK</a>
+{% endblock body %}

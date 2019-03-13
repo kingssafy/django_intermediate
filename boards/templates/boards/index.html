@@ -1,0 +1,13 @@
+{% extends 'boards/base.html' %}
+{% block body %}
+  <h1>index.html</h1>
+  <a href="{% url 'boards:new' %}">write</a>
+  <hr>
+{% for board in boards %}
+  <p>{{ board.pk }}</p>
+  <p>{{ board.title }}</p>
+  <p>{{ board.created_at | timesince }} ago</p>
+  <a href="{% url 'boards:detail' board.pk %}">detail</a>
+  <hr>
+{% endfor boards %}
+{% endblock body %}
