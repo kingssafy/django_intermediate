@@ -8,7 +8,14 @@ def index(request):
     return render(request, 'boards/index.html', context)
 
 def new(request):
-    return render(request, 'boards/new.html')
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        board = Board(title=title, content=content)
+        board.save()
+        return redirect('boards:detail', board.pk)
+    else: 
+        return render(request, 'boards/new.html')
 
 def create(request):
     title = request.POST.get('title')
@@ -24,13 +31,18 @@ def detail(request, pk):
 
 def delete(request, pk):
     board = Board.objects.get(pk=pk)
-    board.delete()
-    return redirect('boards:index')
+    if request.method == 'POST':
+        board.delete()
+        return redirect('boards:index')
+    return redirect('boards:detail', board.pk)    
 
 def edit(request, pk):
-    board = Board.objects.get(pk=pk)
-    context = dict(board=board)
-    return render(request, 'boards/edit.html', context)
+    if request.method == 'POST':
+        return update(request, pk)
+    else:
+        board = Board.objects.get(pk=pk)
+        context = dict(board=board)
+        return render(request, 'boards/edit.html', context)
 
 def update(request, pk):
     board = Board.objects.get(pk=pk)
