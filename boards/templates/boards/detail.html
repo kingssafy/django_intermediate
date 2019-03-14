@@ -11,7 +11,29 @@
 <a href="{% url 'boards:edit' board.pk %}">edit</a>
 <a href="{% url 'boards:delete' board.pk %}" onclick"return confirm('are you sure?')">delete</a>
 <form action="{% url 'boards:delete' board.pk %}"  style="display: inline" method="POST" onsubmit="return confirm('are you sure?');" >
-                                                                {% csrf_token %}
-<input type="submit" value ="submit">
+    {% csrf_token %}
+    <input type="submit" value ="submit">
 </form>
-{% endblock body %}
+
+
+    <hr>
+    {% for comment in comments %}
+    <li>
+        {{ comment.content }}
+        <form action="{% url 'boards:comments_delete' comment.pk %}" method="POST" style="display: inline;">
+            {% csrf_token %}
+            <input type="submit" value"delete">
+        </form>
+    </li>
+    {% empty %}
+    <p><strong>there's no comment added yet.</strong></p>
+    {% endfor %}
+
+    <hr>
+    <p>comments {{ comments | length }}</p>
+    <form action="{% url 'boards:comments_create' board.pk %}" method="POST" style="display: inline" onsubmit="return confirm('r u sure?');">
+        {% csrf_token %}
+        comment: <input type="text" name="content">
+        <input type="submit" name="comment submit">
+    </form>
+    {% endblock body %}
